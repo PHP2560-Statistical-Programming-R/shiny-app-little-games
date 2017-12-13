@@ -100,7 +100,7 @@ gomoku_hard <- function(n = 19, choose = 1) {
       if (2*(i-1) >= n^2) break #bread when the chessboard has been filled
     }
   }
-
+   dev.off()
 }
 
 

@@ -1,5 +1,4 @@
 library(shiny)
-setwd("gomoku")
 ui <- navbarPage("GOMOKU",
     tabPanel(title = "BATTLE",
              sidebarLayout(
@@ -51,17 +50,19 @@ server <- function(input, output) {
     })
   })
   
-  observeEvent(input$click_computer, { output$computer = renderPlot({
-    if(input$color == "BLACK"){
-      if(input$level == "EASY"){gomoku_easy(n = input$computer_num, choose = 1)}
-      if(input$level == "HARD"){gomoku_hard(n = input$computer_num, choose = 1)}
+  data_computer = eventReactive(input$click_computer, {list(input$computer_num, input$color, input$level)})
+  renderPrint(data())
+  output$computer = renderPlot({
+    if(data_computer()[[2]] == "BLACK"){
+      if(input$level == "EASY"){gomoku_easy(n = data_computer()[[1]], choose = 1)}
+      if(input$level == "HARD"){gomoku_hard(n = data_computer()[[1]], choose = 1)}
     }
-    if(input$color == "WHITE"){
-      if(input$level == "EASY"){gomoku_easy(n = input$computer_num, choose = 2)}
-      if(input$level == "HARD"){gomoku_hard(n = input$computer_num, choose = 2)}
+    if(data_computer()[[2]] == "WHITE"){
+      if(data_computer()[[3]] == "EASY"){gomoku_easy(n = data_computer()[[1]], choose = 2)}
+      if(data_computer()[[3]] == "HARD"){gomoku_hard(n = data_computer()[[1]], choose = 2)}
     }
   })
-  })
+
   
  
   
