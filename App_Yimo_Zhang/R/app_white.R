@@ -1,30 +1,34 @@
+#play with computer(player is white)
 gomoku_white = function(points, input, output, fun) {
   
     observeEvent(input$click_computer,{
       
     if(input$color == "WHITE"){
-      print(input$color)
-    
+
+    #initilize variables
     points_white <<- matrix(rep(0, input$computer_num^2), nrow = input$computer_num, ncol = input$computer_num)
     
     output$computer = renderPlot({chessboard(input$computer_num, points_white)})
     
     
-    k <<- 1
-    player_white <<- list() 
-    computer_white <<- list()
-    playedlist_white <<- list()
+    k = 1
+    player_white = list() 
+    computer_white = list()
+    playedlist_white = list()
+    
+    #computer goes first
     if(input$level == "HARD"){new = computer_play_hard(player_white, computer_white, playedlist_white, input$computer_num)}
     if(input$level == "EASY"){new = computer_play(player_white,computer_white, playedlist_white, input$computer_num)}
     point = unlist(new)
     
-    points_white[point[1], point[2]] <<- 1
-    xy <- paste(point, collapse = ":")
-    playedlist_white<<- c(playedlist_white, xy)
-    computer_white[[k]]<<- point
+    points_white[point[1], point[2]] = 1
+    xy= paste(point, collapse = ":")
+    playedlist_white = c(playedlist_white, xy)
+    computer_white[[k]]= point
     
     output$computer = renderPlot({chessboard(input$computer_num, points_white)})
     
+    #start to play
     observeEvent(input$computer_click, {
       if(input$color == "WHITE"){
       
@@ -33,11 +37,11 @@ gomoku_white = function(points, input, output, fun) {
       point = adjust(input$computer_click, input$computer_num)
 
      
-      
+      #player goes second
       if (!if_in(point = point, points = points_white)) #break when the point had chessman on it
       {
         
-        print(computer)
+       
         points_white[point[1], point[2]] <<- 2
         
         
@@ -54,8 +58,9 @@ gomoku_white = function(points, input, output, fun) {
           output$computer_result = renderText("You Win!")
         }
         
-        if(input$level == "HARD"){new = computer_play_hard(player, computer, playedlist, input$computer_num)}
-        if(input$level == "EASY"){new = computer_play(player,computer, playedlist, input$computer_num)}
+        #computer playes after player
+        if(input$level == "HARD"){new = computer_play_hard(player_white, computer_white, playedlist_white, input$computer_num)}
+        if(input$level == "EASY"){new = computer_play(player_white,computer_white, playedlist_white, input$computer_num)}
         point = unlist(new)
         points_white[point[1], point[2]] <<- 1
         xy <- paste(point, collapse = ":")
@@ -76,7 +81,7 @@ gomoku_white = function(points, input, output, fun) {
 }
 
 chessboard = function(n , points){
-  img<-readJPEG("wood.jpg")
+  img<-readJPEG("R/wood.jpg")
   par(mar = rep(0, 4)) 
   plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
        ylab = "", bty = "o", lab = c(n, n, 1))
@@ -101,17 +106,3 @@ chessboard = function(n , points){
 }
 
 
-adjust = function(adjust_point, n){
-  l = adjust_point
-  x = min(n, max(1, round(l$x)))
-  y = min(n, max(1, round(l$y)))
-  return(c(x,y))
-}
-
-if_in = function(point, points){
-  x = point[1]
-  y = point[2]
-  if(points[x,y] < 1)
-    return(0)
-  else{return(1)}
-}

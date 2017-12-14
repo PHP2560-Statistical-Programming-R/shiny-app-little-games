@@ -1,3 +1,4 @@
+#play with another person
 gomoku_battle = function(points, input, output) {
   
   observeEvent(input$click_battle, {
@@ -57,7 +58,7 @@ gomoku_battle = function(points, input, output) {
 }
 
 chessboard = function(n , points){
-  img<-readJPEG("wood.jpg")
+  img<-readJPEG("R/wood.jpg")
   par(mar = rep(0, 4)) 
   plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
        ylab = "", bty = "o", lab = c(n, n, 1))
@@ -82,17 +83,20 @@ chessboard = function(n , points){
 }
 
 
-adjust = function(adjust_point, n){
-  l = adjust_point
-  x = min(n, max(1, round(l$x)))
-  y = min(n, max(1, round(l$y)))
-  return(c(x,y))
-}
-
-if_in = function(point, points){
-  x = point[1]
-  y = point[2]
-  if(points[x,y] < 1)
-    return(0)
-  else{return(1)}
+plot_cover = function(){
+  n = 100
+  x=c(1:n)
+  y=c(1:n)
+  taiji = readPNG("R/taiji.png")
+  windowsFonts(JP1 = windowsFont("Pristina"))
+  bg = readJPEG("R/bg.jpg")
+  colfunc <- colorRampPalette(c("white","goldenrod3", "white","goldenrod3","white"))
+  par(mar = rep(0, 4)) #No blank space for the main plot and the margin of plot
+  plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+       ylab = "", bty = "o", lab = c(n, n, 1))
+  rasterImage(bg,0,0,1+n,1+n)
+  text(x = seq(32,68, length.out = 6), y=rep(8*n/9,6), col = colfunc(6),
+       cex = 3.5, label = unlist(strsplit("GOMOKU", NULL)), family = "JP1", lwd = 2.5)
+  
+  rasterImage(taiji,30, 15, 70, 75)
 }

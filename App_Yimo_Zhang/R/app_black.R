@@ -1,7 +1,8 @@
+#play with computer(player is black)
 gomoku_black = function(points, input, output) {
   
-    
-    observeEvent(input$click_computer,{
+  #click play 
+  observeEvent(input$click_computer,{
 
     
   if(input$color == "BLACK" ){
@@ -10,25 +11,26 @@ gomoku_black = function(points, input, output) {
 
     output$computer = renderPlot({chessboard(input$computer_num, points)})
     
-    i <<- 1
-    j <<- 1
+    #initialize variables
+    i = 1
+    j = 1
     player = list() 
     computer = list()
     playedlist = list()
     
-    
+    #play the game
     observeEvent(input$computer_click, {
       if(input$color == "BLACK"){
       
       
       point = adjust(input$computer_click, input$computer_num)
-      print(computer)
-      
+
+      #player plays
       if (!if_in(point = point, points = points)) #break when the point had chessman on it
       {
         points[point[1], point[2]] <<- 1
      
-        print(computer)
+        
         xy = paste(point, collapse = ":")
         playedlist <<- c(playedlist, xy)
         
@@ -40,6 +42,8 @@ gomoku_black = function(points, input, output) {
             output$computer_result = renderText("You Win!")
           }
         
+         
+        #Computer plays
         if(input$level == "HARD"){new = computer_play_hard(player, computer, playedlist, input$computer_num)}
         if(input$level == "EASY"){new = computer_play(player,computer, playedlist, input$computer_num)}
         point = unlist(new)
@@ -51,6 +55,8 @@ gomoku_black = function(points, input, output) {
           if(if_win(computer)==1){
             output$computer_result = renderText("You Lose!")
           }
+        
+      #update variables
        i <<- i+1
         
         
@@ -61,8 +67,9 @@ gomoku_black = function(points, input, output) {
   })
 }
 
+#make the plot(including chessboard and chessmen)
 chessboard = function(n , points){
-  img<-readJPEG("wood.jpg")
+  img<-readJPEG("R/wood.jpg")
   par(mar = rep(0, 4)) 
   plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
        ylab = "", bty = "o", lab = c(n, n, 1))
@@ -86,7 +93,7 @@ chessboard = function(n , points){
   
 }
 
-
+#adjust the click position
 adjust = function(adjust_point, n){
   l = adjust_point
   x = min(n, max(1, round(l$x)))
@@ -94,6 +101,7 @@ adjust = function(adjust_point, n){
   return(c(x,y))
 }
 
+#check if a spot is available
 if_in = function(point, points){
   x = point[1]
   y = point[2]
