@@ -1,5 +1,4 @@
 library(shiny)
-library(shinyjs)
 ui <- navbarPage("R Games",
     tabPanel(title = "Flags",
              sidebarLayout(
