@@ -50,7 +50,19 @@ ui <- navbarPage("LITTLE GAMES",
              )
   )),
   tabPanel(title = "R snake"),#R snake,
-  tabPanel(title = "Mine Sweeper"),#mine sweeper
+  tabPanel(title = "Mine Sweeper",
+           titlePanel("Mine Sweeper"),
+           sidebarLayout(
+             sidebarPanel(
+               sliderInput("WidthInput", "Width", 5, 50, 10),  #slider for width input
+               sliderInput("LengthInput", "Length", 5, 50, 10), #slider for length input
+               sliderInput("MinesInput", "Mines", 1, 100, 5), #slider for length input
+               actionButton("start", "Start")
+               #      selectInput("restartOption", "Restart", c("SELECT CHOICE","YES","NO"))
+             ),
+             mainPanel(uiOutput("mine")) #show the main game panel
+           )),#mine sweeper
+  
   tabPanel(title = "R flag")#R flag
 )
 
@@ -82,8 +94,14 @@ server <- function(input, output) {
     reset("computer_page")
     output$computer = renderPlot({plot_cover()})
   })
+  
+  actionstart <- eventReactive(input$start, { #trigger of starting button
+    mine_sweeper(input$WidthInput, input$LengthInput, input$MinesInput)
+  }
+  )
+  
+  output$mine <- renderUI(actionstart())#start the game
             
-
 
 }
 
