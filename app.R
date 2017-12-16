@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> 9092030cb16137cea1d63b21009e0f5ecc4ef6b8
 library(shiny)
 library(shinyjs)
 
