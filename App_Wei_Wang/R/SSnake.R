@@ -85,10 +85,10 @@ stage1<-function( ){  ## Being in the game
     e$lasty<-e$head[2]
     
     ## Direction operator
-    if(e$dir=='up') e$head[2]<-e$head[2]+1
-    if(e$dir=='down') e$head[2]<-e$head[2]-1
-    if(e$dir=='left') e$head[1]<-e$head[1]-1
-    if(e$dir=='right') e$head[1]<-e$head[1]+1
+    if(e$dir=='up') e$head[2]<-e$head[2]+s
+    if(e$dir=='down') e$head[2]<-e$head[2]-s
+    if(e$dir=='left') e$head[1]<-e$head[1]-s
+    if(e$dir=='right') e$head[1]<-e$head[1]+s
     
   }
   
