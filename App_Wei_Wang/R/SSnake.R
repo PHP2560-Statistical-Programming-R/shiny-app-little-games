@@ -140,7 +140,7 @@ stage0<-function( ){ ## Startup screen
   e$stage<-0
 
   plot(0,0,xlim=c(0,1),ylim=c(0,1),type='n',xaxs="i", yaxs="i")
-  bg = readJPEG(system.file("img","BGB1.jpg",package = "LittleGames"))
+  bg = readJPEG("R/BGB1.jpg")
   rasterImage(bg,0,0,1,1)
   text(0.5,0.7,label="Snake Game",cex=5,col="yellow")
   text(0.5,0.4,label="Any keyboard to start",cex=2,col="pink")
@@ -151,7 +151,7 @@ stage0<-function( ){ ## Startup screen
 stage2<-function( ){  ## Get result
   e$stage<-2
   plot(0,0,xlim=c(0,1),ylim=c(0,1),type='n',xaxs="i", yaxs="i")
-  bgg = readJPEG(system.file("img","grass1.jpg",package = "LittleGames"))
+  bgg = readJPEG("R/grass1.jpg")
   rasterImage(bgg,0,0,1,1)
   text(0.5,0.7,label="Congratulations!",cex=4,col="pink")
   text(0.5,0.6,label=paste("You have eat",nrow(e$tail),"fruits!"),cex=3,col="pink")
