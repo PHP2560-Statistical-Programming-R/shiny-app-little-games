@@ -1,4 +1,5 @@
 library(shiny)
+
 ui <- navbarPage("R Games",
     tabPanel(title = "Flags",
              sidebarLayout(
@@ -17,12 +18,21 @@ ui <- navbarPage("R Games",
              mainPanel(
                plotOutput("myPlot")
              ))
-      
-  )
+            ),
+  
+    tabPanel(title = "Snake",
+             sidebarLayout(
+               sidebarPanel(actionButton("Start", "Get Ready And Click Here to Start!")
+               ),
+
+               mainPanel(plotOutput("Snake")
+               )
+               
+             ))
 )
 
-server <- function(input, output, session) {
-  
+server <- function(input, output) {
+
   output$myPlot <- renderPlot({
     Type <- input$Countries
     a <- input$Points
@@ -149,8 +159,21 @@ server <- function(input, output, session) {
     }
     
   })
+    
 
+    output$Snake <- renderUI(  #start the game
+      actionstart()
+    )
 
+    #trigger of starting button
+    actionstart <- eventReactive(input$Start, { 
+      source("R/SSnake.R")
+    })
+    
+    output$Snake <- renderUI(
+      actionstart()
+    )
+    
 }
 
 shinyApp(ui, server)
