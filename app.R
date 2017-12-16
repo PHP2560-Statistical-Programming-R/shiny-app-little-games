@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 library(shiny)
+=======
+library(shinyjs)
+>>>>>>> e78ad8cdba0cf2537a2d9aae6925b69a507a0b6d
 
 ui <- navbarPage("LITTLE GAMES",
                  tabPanel("GOMOKU",
@@ -50,7 +54,18 @@ ui <- navbarPage("LITTLE GAMES",
              )
   )),
   tabPanel(title = "R snake"),#R snake,
-  tabPanel(title = "Mine Sweeper"),#mine sweeper
+  tabPanel(title = "Mine Sweeper", #mine sweeper
+           sidebarLayout(
+             sidebarPanel(
+               sliderInput("WidthInput", "Width", 5, 50, 10),  #slider for width input
+               sliderInput("LengthInput", "Length", 5, 50, 10), #slider for length input
+               sliderInput("MinesInput", "Mines", 1, 100, 5), #slider for length input
+               actionButton("start", "Start")
+               #      selectInput("restartOption", "Restart", c("SELECT CHOICE","YES","NO"))
+             ),
+             mainPanel(uiOutput("mine")) #show the main game panel
+           )),
+  
   tabPanel(title = "R flag")#R flag
 )
 
@@ -64,6 +79,7 @@ server <- function(input, output) {
   source("App_Yimo_Zhang/R/gomoku_plot.R")
   source("App_Yimo_Zhang/R/gomoku_harder.R")
   source("App_Yimo_Zhang/R/app_white.R")
+  source("App_Bowei_Wei/R/mine_sweeper.R")
   
   data = reactive(input$color)
   
@@ -82,8 +98,14 @@ server <- function(input, output) {
     reset("computer_page")
     output$computer = renderPlot({plot_cover()})
   })
+  
+  actionstart <- eventReactive(input$start, { #trigger of starting button for mine sweeper
+    mine_sweeper(input$WidthInput, input$LengthInput, input$MinesInput)
+  }
+  )
+  
+  output$mine <- renderUI(actionstart())#start the mine sweeper
             
-
 
 }
 
