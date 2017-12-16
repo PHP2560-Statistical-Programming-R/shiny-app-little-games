@@ -154,7 +154,7 @@ stage2<-function( ){  ## Get result
   bgg = readJPEG("data/grass1.jpg")
   rasterImage(bgg,0,0,1,1)
   text(0.5,0.7,label="Congratulations!",cex=4,col="pink")
-  text(0.5,0.6,label=paste("You have eat",nrow(e$tail),"fruits!"),cex=3,col="pink")
+  text(0.5,0.6,label=paste("You got",nrow(e$tail),"fruits!"),cex=3,col="pink")
   text(0.5,0.4,label="'Space'' to restart, 'Q' to quit.",cex=2,col="yellow")
 }
 
