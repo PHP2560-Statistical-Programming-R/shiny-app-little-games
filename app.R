@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+library(shiny)
+=======
 library(shinyjs)
+>>>>>>> e78ad8cdba0cf2537a2d9aae6925b69a507a0b6d
 
 ui <- navbarPage("LITTLE GAMES",
                  tabPanel("GOMOKU",
