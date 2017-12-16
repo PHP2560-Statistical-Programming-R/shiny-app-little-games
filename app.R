@@ -19,7 +19,7 @@ ui <- navbarPage("LITTLE GAMES",
                             div(id = "battle_page",
                  sliderInput(inputId = "battle_num", 
                              label = "choose a number", 
-                             value = 19, min = 5, max = 99, step = 2),
+                             value = 19, min = 5, max = 39, step = 2),
                  actionButton("click_battle", "Play")
                ),
                tags$hr(),
