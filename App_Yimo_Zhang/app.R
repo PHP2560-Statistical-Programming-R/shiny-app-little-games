@@ -1,6 +1,8 @@
-library(shiny)
-library(shinyjs)
-ui <- navbarPage("GOMOKU",
+
+
+ui <- navbarPage("LITTLE GAMES",
+                 tabPanel("GOMOKU",
+                 navlistPanel(
     tabPanel(title = "BATTLE",
              sidebarLayout(
                sidebarPanel(useShinyjs(),
@@ -46,7 +48,11 @@ ui <- navbarPage("GOMOKU",
                ),mainPanel(tableOutput("record"))
              )
              )
-  )
+  )),
+  tabPanel(title = "R snake"),#R snake,
+  tabPanel(title = "Mine Sweeper"),#mine sweeper
+  tabPanel(title = "R flag")#R flag
+)
 
 
 server <- function(input, output) {

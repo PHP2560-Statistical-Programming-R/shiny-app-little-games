@@ -34,6 +34,7 @@ gomoku_battle = function(points, input, output) {
           black[[i]] <<- point
           print(black)
           if(if_win(black)==1){
+            output$battle = renderPlot({plot_battle_result("Black Wins!")})
             output$battle_result = renderText("Black Wins!")
           }
         }
@@ -42,6 +43,7 @@ gomoku_battle = function(points, input, output) {
         if(j == 2){
           white[[i]] <<- point
           if(if_win(white)==1){
+            output$battle = renderPlot({plot_battle_result("White Wins!")})
             output$battle_result = renderText("White Wins!")
           }
         }
@@ -99,4 +101,25 @@ plot_cover = function(){
        cex = 3.5, label = unlist(strsplit("GOMOKU", NULL)), family = "JP1", lwd = 2.5)
   
   rasterImage(taiji,30, 15, 70, 75)
+}
+
+
+
+plot_battle_result = function(result)
+{
+  if(result == "White Wins!"){img = readPNG("white_wins.png")}
+  if(result == "Black Wins!"){img = readPNG("black_wins.png")}
+  colfunc <- colorRampPalette(c("white","goldenrod3", "white","goldenrod3","white"))
+  colfunc1 = colorRampPalette(c("black","gray90"))
+  windowsFonts(JP1 = windowsFont("Pristina"))
+  bg = readJPEG("wood.jpg")
+  n = 100
+  x=c(1:n)
+  y=c(1:n)
+  par(mar = rep(0, 4)) #No blank space for the main plot and the margin of plot
+  plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+       ylab = "", bty = "o", lab = c(n, n, 1))#add points to the plot where the lines should be located
+  rasterImage(bg,0,0,1+n,1+n)
+  text(x = 50, y = 8*n/9, label = toupper(result), cex = 3.5, col = "white", family = "JP1")
+  rasterImage(img, 30, 15, 70, 75)
 }
