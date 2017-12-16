@@ -60,7 +60,7 @@ gomoku_battle = function(points, input, output) {
 }
 
 chessboard = function(n , points){
-  img<-readJPEG("R/wood.jpg")
+  img<-readJPEG("App_Yimo_Zhang/R/wood.jpg")
   par(mar = rep(0, 4)) 
   plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
        ylab = "", bty = "o", lab = c(n, n, 1))
@@ -89,7 +89,7 @@ plot_cover = function(){
   n = 100
   x=c(1:n)
   y=c(1:n)
-  taiji = readPNG("R/taiji.png")
+  taiji = readPNG("App_Yimo_Zhang/R/taiji.png")
   windowsFonts(JP1 = windowsFont("Pristina"))
   bg = readJPEG("R/bg.jpg")
   colfunc <- colorRampPalette(c("white","goldenrod3", "white","goldenrod3","white"))
@@ -107,12 +107,12 @@ plot_cover = function(){
 
 plot_battle_result = function(result)
 {
-  if(result == "White Wins!"){img = readPNG("white_wins.png")}
-  if(result == "Black Wins!"){img = readPNG("black_wins.png")}
+  if(result == "White Wins!"){img = readPNG("App_Yimo_Zhang/R/white_wins.png")}
+  if(result == "Black Wins!"){img = readPNG("App_Yimo_Zhang/Rblack_wins.png")}
   colfunc <- colorRampPalette(c("white","goldenrod3", "white","goldenrod3","white"))
   colfunc1 = colorRampPalette(c("black","gray90"))
   windowsFonts(JP1 = windowsFont("Pristina"))
-  bg = readJPEG("wood.jpg")
+  bg = readJPEG("App_Yimo_Zhang/R/wood.jpg")
   n = 100
   x=c(1:n)
   y=c(1:n)

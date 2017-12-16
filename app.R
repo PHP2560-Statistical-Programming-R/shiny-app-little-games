@@ -1,4 +1,4 @@
-
+library(shiny)
 
 ui <- navbarPage("LITTLE GAMES",
                  tabPanel("GOMOKU",

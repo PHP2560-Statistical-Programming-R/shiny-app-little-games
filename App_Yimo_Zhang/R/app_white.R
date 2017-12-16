@@ -81,7 +81,7 @@ gomoku_white = function(points, input, output, fun) {
 }
 
 chessboard = function(n , points){
-  img<-readJPEG("R/wood.jpg")
+  img<-readJPEG("App_Yimo_Zhang/R/wood.jpg")
   par(mar = rep(0, 4)) 
   plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
        ylab = "", bty = "o", lab = c(n, n, 1))
