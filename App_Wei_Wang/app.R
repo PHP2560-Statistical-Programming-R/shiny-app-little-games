@@ -17,10 +17,7 @@ ui <- navbarPage("R Games",
              mainPanel(
                plotOutput("myPlot")
              ))
-             
-             
-             
-          
+      
   )
 )
 
