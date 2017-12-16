@@ -1,8 +1,7 @@
-<<<<<<< HEAD
+
 library(shiny)
-=======
 library(shinyjs)
->>>>>>> e78ad8cdba0cf2537a2d9aae6925b69a507a0b6d
+
 
 ui <- navbarPage("LITTLE GAMES",
                  tabPanel("GOMOKU",
@@ -53,7 +52,17 @@ ui <- navbarPage("LITTLE GAMES",
              )
              )
   )),
-  tabPanel(title = "R snake"),#R snake,
+  
+  tabPanel(title = "R snake",     #R snake
+           sidebarLayout(
+             sidebarPanel(actionButton("Start", "Get Ready And Click Here to Start!")
+             ),
+                          mainPanel(plotOutput("Snake")
+             )
+             
+           )),
+  
+  
   tabPanel(title = "Mine Sweeper", #mine sweeper
            sidebarLayout(
              sidebarPanel(
@@ -98,6 +107,20 @@ server <- function(input, output) {
     reset("computer_page")
     output$computer = renderPlot({plot_cover()})
   })
+  
+  output$Snake <- renderUI(  #start the game
+    Snake_actionstart()
+  )
+  
+  #trigger of starting button
+  Snake_actionstart <- eventReactive(input$Start, { 
+    source("App_Wei_Wang/R/SSnake.R")
+  })
+  
+  output$Snake <- renderUI(
+    Snake_actionstart()
+  )
+  
   
   actionstart <- eventReactive(input$start, { #trigger of starting button for mine sweeper
     mine_sweeper(input$WidthInput, input$LengthInput, input$MinesInput)
