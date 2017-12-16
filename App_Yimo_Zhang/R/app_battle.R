@@ -1,6 +1,6 @@
 #play with another person
 gomoku_battle = function(points, input, output) {
-  
+ 
   observeEvent(input$click_battle, {
     
     
@@ -8,22 +8,24 @@ gomoku_battle = function(points, input, output) {
     
     output$battle = renderPlot({chessboard(input$battle_num, points)})
     
-    i <<- 1
-    j <<- 1
-    black <<- list() 
-    white <<- list() 
+   
+    i = 1
+    j = 1
+    black = list() 
+    white = list() 
     
     
     observeEvent(input$battle_click, {
       
-      
+      if(battle_start == 0)
+      {
       point = adjust(input$battle_click, input$battle_num)
       
       
       if (!if_in(point = point, points = points)) #break when the point had chessman on it
       {
         points[point[1], point[2]] <<- j
-        print(points)
+  
         
         
         
@@ -32,9 +34,12 @@ gomoku_battle = function(points, input, output) {
         
         if(j == 1){
           black[[i]] <<- point
-          print(black)
+   
           if(if_win(black)==1){
+            battle_start <<- 1
             output$battle = renderPlot({plot_battle_result("Black Wins!")})
+            r_table_battle <<- r_table_battle %>%
+              rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Battle", "Black Wins!"))
             output$battle_result = renderText("Black Wins!")
           }
         }
@@ -43,7 +48,10 @@ gomoku_battle = function(points, input, output) {
         if(j == 2){
           white[[i]] <<- point
           if(if_win(white)==1){
+            battle_start <<- 1
             output$battle = renderPlot({plot_battle_result("White Wins!")})
+            r_table_battle <<- r_table_battle %>%
+              rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Battle", "White Wins!"))
             output$battle_result = renderText("White Wins!")
           }
         }
@@ -55,9 +63,11 @@ gomoku_battle = function(points, input, output) {
      
         
       }
+      }
     })
   })
-}
+  }
+
 
 chessboard = function(n , points){
   img<-readJPEG("App_Yimo_Zhang/R/wood.jpg")
@@ -91,7 +101,7 @@ plot_cover = function(){
   y=c(1:n)
   taiji = readPNG("App_Yimo_Zhang/R/taiji.png")
   windowsFonts(JP1 = windowsFont("Pristina"))
-  bg = readJPEG("R/bg.jpg")
+  bg = readJPEG("App_Yimo_Zhang/R/wood.jpg")
   colfunc <- colorRampPalette(c("white","goldenrod3", "white","goldenrod3","white"))
   par(mar = rep(0, 4)) #No blank space for the main plot and the margin of plot
   plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
@@ -107,10 +117,14 @@ plot_cover = function(){
 
 plot_battle_result = function(result)
 {
-  if(result == "White Wins!"){img = readPNG("App_Yimo_Zhang/R/white_wins.png")}
-  if(result == "Black Wins!"){img = readPNG("App_Yimo_Zhang/Rblack_wins.png")}
-  colfunc <- colorRampPalette(c("white","goldenrod3", "white","goldenrod3","white"))
-  colfunc1 = colorRampPalette(c("black","gray90"))
+  if(result == "White Wins!"){
+    img = readPNG("App_Yimo_Zhang/R/white_wins.png")
+    color = "white"
+    }
+  if(result == "Black Wins!"){
+    img = readPNG("App_Yimo_Zhang/R/black_wins.png")
+    color = "black"
+    }
   windowsFonts(JP1 = windowsFont("Pristina"))
   bg = readJPEG("App_Yimo_Zhang/R/wood.jpg")
   n = 100
@@ -120,6 +134,6 @@ plot_battle_result = function(result)
   plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
        ylab = "", bty = "o", lab = c(n, n, 1))#add points to the plot where the lines should be located
   rasterImage(bg,0,0,1+n,1+n)
-  text(x = 50, y = 8*n/9, label = toupper(result), cex = 3.5, col = "white", family = "JP1")
+  text(x = 50, y = 8*n/9, label = toupper(result), cex = 3.5, col = color, family = "JP1")
   rasterImage(img, 30, 15, 70, 75)
 }

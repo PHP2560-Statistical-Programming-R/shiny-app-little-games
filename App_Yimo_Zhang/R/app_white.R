@@ -1,16 +1,19 @@
 #play with computer(player is white)
-gomoku_white = function(points, input, output, fun) {
+gomoku_white = function(points, input, output) {
+  
+  
+    
   
     observeEvent(input$click_computer,{
       
     if(input$color == "WHITE"){
 
     #initilize variables
-    points_white <<- matrix(rep(0, input$computer_num^2), nrow = input$computer_num, ncol = input$computer_num)
+    points_white = matrix(rep(0, input$computer_num^2), nrow = input$computer_num, ncol = input$computer_num)
     
     output$computer = renderPlot({chessboard(input$computer_num, points_white)})
     
-    
+    print(r_table_computer)
     k = 1
     player_white = list() 
     computer_white = list()
@@ -30,9 +33,11 @@ gomoku_white = function(points, input, output, fun) {
     
     #start to play
     observeEvent(input$computer_click, {
+      
+      if(computer_start == 0){
       if(input$color == "WHITE"){
       
-  
+   
       
       point = adjust(input$computer_click, input$computer_num)
 
@@ -55,6 +60,10 @@ gomoku_white = function(points, input, output, fun) {
         k <<- k+1
     
         if(if_win(player_white)==1){
+          computer_start <<- 1
+          output$computer = renderPlot({plot_computer_result("You Win!", "white")})
+          r_table_computer <<- r_table_computer %>%
+            rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Player Wins!"))
           output$computer_result = renderText("You Win!")
         }
         
@@ -68,17 +77,22 @@ gomoku_white = function(points, input, output, fun) {
         computer_white[[k]]<<- point
    
         if(if_win(computer_white)==1){
+          computer_start <<- 1
+          output$computer = renderPlot({plot_computer_result("You Lose!", "white")})
+          r_table_computer <<- r_table_computer %>%
+            rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Computer Wins!"))
           output$computer_result = renderText("You Lose!")
         }
       }
         
-        
+      }
       }
     })
     }
   })
 
-}
+  }
+
 
 chessboard = function(n , points){
   img<-readJPEG("App_Yimo_Zhang/R/wood.jpg")
@@ -105,4 +119,20 @@ chessboard = function(n , points){
   
 }
 
-
+plot_computer_result = function(result, stone_color){
+  if(result == "You Win!"){img = readPNG("App_Yimo_Zhang/R/happy_face.png")}
+  if(result == "You Lose!"){img = readPNG("App_Yimo_Zhang/R/sad_face.png")}
+  colfunc <- colorRampPalette(c("white","goldenrod3", "white","goldenrod3","white"))
+  colfunc1 = colorRampPalette(c("black","gray90"))
+  windowsFonts(JP1 = windowsFont("Pristina"))
+  bg = readJPEG("App_Yimo_Zhang/R/wood.jpg")
+  n = 100
+  x=c(1:n)
+  y=c(1:n)
+  par(mar = rep(0, 4)) #No blank space for the main plot and the margin of plot
+  plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+       ylab = "", bty = "o", lab = c(n, n, 1))#add points to the plot where the lines should be located
+  rasterImage(bg,0,0,1+n,1+n)
+  text(x = 50, y = 8*n/9, label = toupper(result), cex = 3.5, col = stone_color, family = "JP1")
+  rasterImage(img, 30, 15, 70, 75)
+}

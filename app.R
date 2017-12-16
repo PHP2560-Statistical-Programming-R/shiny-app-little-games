@@ -1,14 +1,18 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 9092030cb16137cea1d63b21009e0f5ecc4ef6b8
 library(shiny)
 library(shinyjs)
+library(dplyr)
 
+r_table_battle = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Game" = "None", "Result" = "None")
+
+r_table_computer = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Game" = "None", "Result" = "None")
+
+battle_start = 0
+
+computer_start = 0
 
 ui <- navbarPage("LITTLE GAMES",
                  tabPanel("GOMOKU",
-                 navlistPanel(
+    navbarPage("PLAY GOMOKU",
     tabPanel(title = "BATTLE",
              sidebarLayout(
                sidebarPanel(useShinyjs(),
@@ -42,14 +46,11 @@ ui <- navbarPage("LITTLE GAMES",
                ),
                mainPanel( plotOutput("computer", click = "computer_click"),
                              textOutput("computer_result"))
-             )
-            
-             
-             
-    ),
+             )),
     tabPanel(title = "RECORD",
              sidebarLayout(
                sidebarPanel(
+                 radioButtons("game", "Game", choices = c("BATTLE", "COMPUTER"), selected = NULL),
                  actionButton("refresh", "Refresh")
                ),mainPanel(tableOutput("record"))
              )
@@ -110,7 +111,6 @@ server <- function(input, output) {
   source("App_Yimo_Zhang/R/app_white.R")
   source("App_Bowei_Wei/R/mine_sweeper.R")
   
-  data = reactive(input$color)
   
   gomoku_battle(points, input, output)
   
@@ -120,14 +120,33 @@ server <- function(input, output) {
   
   observeEvent(input$reset_battle,{
     reset("battle_page")
+    battle_start <<- 0
     output$battle = renderPlot({plot_cover()})
   })
   
   observeEvent(input$reset_computer,{
     reset("computer_page")
+    computer_start <<- 0
     output$computer = renderPlot({plot_cover()})
   })
   
+  observeEvent(input$refresh, {
+    if(input$game == "BATTLE"){
+    output$record = renderTable({
+      r_table_battle %>%
+        filter(Game != "None")
+    })}
+    if(input$game == "COMPUTER"){
+      output$record = renderTable({
+        r_table_computer %>%
+          filter(Game != "None")
+      })
+    }
+  })
+  
+  
+  
+  #R snake
   output$Snake <- renderUI(  #start the game
     Snake_actionstart()
   )

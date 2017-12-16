@@ -1,7 +1,7 @@
 #play with computer(player is black)
 gomoku_black = function(points, input, output) {
   
-  #click play 
+    #click play 
   observeEvent(input$click_computer,{
 
     
@@ -10,6 +10,8 @@ gomoku_black = function(points, input, output) {
     points = matrix(rep(0, input$computer_num^2), nrow = input$computer_num, ncol = input$computer_num)
 
     output$computer = renderPlot({chessboard(input$computer_num, points)})
+
+    
     
     #initialize variables
     i = 1
@@ -20,6 +22,7 @@ gomoku_black = function(points, input, output) {
     
     #play the game
     observeEvent(input$computer_click, {
+      if(computer_start == 0){
       if(input$color == "BLACK"){
       
       
@@ -39,6 +42,10 @@ gomoku_black = function(points, input, output) {
          player[[i]] <<- point
         
           if(if_win(player)==1){
+            computer_start <<- 1
+            output$computer = renderPlot({plot_computer_result("You Win!", "black")})
+            r_table_computer <<- r_table_computer %>%
+              rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Player Wins!"))
             output$computer_result = renderText("You Win!")
           }
         
@@ -53,6 +60,10 @@ gomoku_black = function(points, input, output) {
         computer[[i]]<<- point
     
           if(if_win(computer)==1){
+            computer_start <<- 1
+            output$computer = renderPlot({plot_computer_result("You Lose!","black")})
+            r_table_computer <<- r_table_computer %>%
+              rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Computer Wins!"))
             output$computer_result = renderText("You Lose!")
           }
         
@@ -62,10 +73,12 @@ gomoku_black = function(points, input, output) {
         
       }
       }
+      }
     })
   }
   })
-}
+  }
+
 
 #make the plot(including chessboard and chessmen)
 chessboard = function(n , points){
