@@ -2,13 +2,19 @@ library(shiny)
 library(shinyjs)
 library(dplyr)
 
-r_table_battle = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Type" = "None", "Result" = "None")
+g <<- new.env()
 
-r_table_computer = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Type" = "None", "Result" = "None")
+b <<- new.env()
 
-battle_start = 0
+w <<- new.env()
 
-computer_start = 0
+g$r_table_battle = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Type" = "None", "Result" = "None")
+
+b$r_table_computer = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Type" = "None", "Result" = "None")
+
+g$battle_start = 0
+
+b$computer_start = 0
 
 ui <- navbarPage("LITTLE GAMES",
                  tabPanel("Gomoku",
@@ -115,21 +121,21 @@ server <- function(input, output) {
   source("App_Bowei_Wei/R/mine_sweeper.R")
   
   
-  gomoku_battle(points, input, output)
+  gomoku_battle(input, output)
   
-  gomoku_black(points, input, output)
+  gomoku_black(input, output)
   
-  gomoku_white(points, input, output)
+  gomoku_white(input, output)
   
   observeEvent(input$reset_battle,{
     reset("battle_page")
-    battle_start <<- 0
+    g$battle_start = 0
     output$battle = renderPlot({plot_cover()})
   })
   
   observeEvent(input$reset_computer,{
     reset("computer_page")
-    computer_start <<- 0
+    b$computer_start = 0
     output$computer = renderPlot({plot_cover()})
   })
   
@@ -137,13 +143,13 @@ server <- function(input, output) {
   observeEvent(input$refresh, {
     if(input$game == "BATTLE"){
     output$record = renderTable({
-      r_table_battle %>%
-        filter(Game != "None")
+      g$r_table_battle %>%
+        filter(Type != "None")
     })}
     if(input$game == "COMPUTER"){
       output$record = renderTable({
-        r_table_computer %>%
-          filter(Game != "None")
+        b$r_table_computer %>%
+          filter(Type != "None")
       })
     }
   })

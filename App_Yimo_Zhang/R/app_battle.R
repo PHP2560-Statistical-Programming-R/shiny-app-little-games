@@ -1,65 +1,65 @@
 #play with another person
-gomoku_battle = function(points, input, output) {
+gomoku_battle = function(input, output) {
  
   observeEvent(input$click_battle, {
     
     
-    points = matrix(rep(0, input$battle_num^2), nrow = input$battle_num, ncol = input$battle_num)
+    g$points = matrix(rep(0, input$battle_num^2), nrow = input$battle_num, ncol = input$battle_num)
     
-    output$battle = renderPlot({chessboard(input$battle_num, points)})
+    output$battle = renderPlot({chessboard(input$battle_num, g$points)})
     
-   
-    i = 1
-    j = 1
-    black = list() 
-    white = list() 
+    
+    g$i = 1
+    g$j = 1
+    g$black = list() 
+    g$white = list() 
     
     
     observeEvent(input$battle_click, {
       
-      if(battle_start == 0)
+      if(g$battle_start == 0)
       {
       point = adjust(input$battle_click, input$battle_num)
       
       
-      if (!if_in(point = point, points = points)) #break when the point had chessman on it
+      if (!if_in(point = point, points = g$points)) #break when the point had chessman on it
       {
-        points[point[1], point[2]] <<- j
+        g$points[point[1], point[2]] = g$j
   
         
         
         
-        output$battle = renderPlot({chessboard(input$battle_num, points)})
+        output$battle = renderPlot({chessboard(input$battle_num, g$points)})
         
         
-        if(j == 1){
-          black[[i]] <<- point
+        if(g$j == 1){
+          g$black[[g$i]] = point
    
-          if(if_win(black)==1){
-            battle_start <<- 1
+          if(if_win(g$black)==1){
+            g$battle_start = 1
             output$battle = renderPlot({plot_battle_result("Black Wins!")})
-            r_table_battle <<- r_table_battle %>%
+            g$r_table_battle = g$r_table_battle %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Battle", "Black Wins!"))
             output$battle_result = renderText("Black Wins!")
           }
         }
         
         #check the white chessman
-        if(j == 2){
-          white[[i]] <<- point
-          if(if_win(white)==1){
-            battle_start <<- 1
+        if(g$j == 2){
+          g$white[[g$i]] = point
+          if(if_win(g$white)==1){
+            g$battle_start = 1
             output$battle = renderPlot({plot_battle_result("White Wins!")})
-            r_table_battle <<- r_table_battle %>%
+            g$r_table_battle = g$r_table_battle %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Battle", "White Wins!"))
             output$battle_result = renderText("White Wins!")
           }
         }
       
-        if(j == 1){j <<- 2}
+        if(g$j == 1){g$j = 2}
         else{
-          j <<- 1
-          i <<- i + 1}
+          g$j = 1
+          g$i = g$i + 1}
      
         
       }

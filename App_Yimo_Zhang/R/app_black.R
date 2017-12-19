@@ -1,5 +1,5 @@
 #play with computer(player is black)
-gomoku_black = function(points, input, output) {
+gomoku_black = function(input, output) {
   
     #click play 
   observeEvent(input$click_computer,{
@@ -7,68 +7,67 @@ gomoku_black = function(points, input, output) {
     
   if(input$color == "BLACK" ){
     
-    points = matrix(rep(0, input$computer_num^2), nrow = input$computer_num, ncol = input$computer_num)
+    b$points = matrix(rep(0, input$computer_num^2), nrow = input$computer_num, ncol = input$computer_num)
 
-    output$computer = renderPlot({chessboard(input$computer_num, points)})
+    output$computer = renderPlot({chessboard(input$computer_num, b$points)})
 
     
     
     #initialize variables
-    i = 1
-    j = 1
-    player = list() 
-    computer = list()
-    playedlist = list()
+    b$i = 1
+    b$player = list() 
+    b$computer = list()
+    b$playedlist = list()
     
     #play the game
     observeEvent(input$computer_click, {
-      if(computer_start == 0){
+      if(b$computer_start == 0){
       if(input$color == "BLACK"){
       
       
       point = adjust(input$computer_click, input$computer_num)
 
       #player plays
-      if (!if_in(point = point, points = points)) #break when the point had chessman on it
+      if (!if_in(point = point, points = b$points)) #break when the point had chessman on it
       {
-        points[point[1], point[2]] <<- 1
+        b$points[point[1], point[2]] = 1
      
         
         xy = paste(point, collapse = ":")
-        playedlist <<- c(playedlist, xy)
+        b$playedlist = c(b$playedlist, xy)
         
-        output$computer = renderPlot({chessboard(input$computer_num, points)})
+        output$computer = renderPlot({chessboard(input$computer_num, b$points)})
         
-         player[[i]] <<- point
+         b$player[[b$i]] = point
         
-          if(if_win(player)==1){
-            computer_start <<- 1
+          if(if_win(b$player)==1){
+            b$computer_start = 1
             output$computer = renderPlot({plot_computer_result("You Win!", "black")})
-            r_table_computer <<- r_table_computer %>%
+            b$r_table_computer = b$r_table_computer %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Player Wins!"))
             output$computer_result = renderText("You Win!")
           }
         
          
         #Computer plays
-        if(input$level == "HARD"){new = computer_play_hard(player, computer, playedlist, input$computer_num)}
-        if(input$level == "EASY"){new = computer_play(player,computer, playedlist, input$computer_num)}
+        if(input$level == "HARD"){new = computer_play_hard(b$player, b$computer, b$playedlist, input$computer_num)}
+        if(input$level == "EASY"){new = computer_play(b$player, b$computer, b$playedlist, input$computer_num)}
         point = unlist(new)
-        points[point[1], point[2]] <<- 2
+        b$points[point[1], point[2]] = 2
         xy <- paste(point, collapse = ":")
-        playedlist <<- c(playedlist, xy)
-        computer[[i]]<<- point
+        b$playedlist = c(b$playedlist, xy)
+        b$computer[[b$i]] = point
     
-          if(if_win(computer)==1){
-            computer_start <<- 1
+          if(if_win(b$computer)==1){
+            b$computer_start = 1
             output$computer = renderPlot({plot_computer_result("You Lose!","black")})
-            r_table_computer <<- r_table_computer %>%
+            b$r_table_computer = b$r_table_computer %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Computer Wins!"))
             output$computer_result = renderText("You Lose!")
           }
         
       #update variables
-       i <<- i+1
+       b$i = b$i+1
         
         
       }
