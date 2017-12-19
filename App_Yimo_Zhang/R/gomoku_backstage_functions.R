@@ -114,14 +114,16 @@ judge = function(x, num, set1, set2 = NULL, n = NULL){
   line = list(line1, line2, line3, line4)
   
   #check if there are five continuous points in the set
-
-  for(i in 1:4){
+  random = sample(c(1:4))
+  j = 1
+  for(i in random){
     judge = sum(is.element(line[[i]], set1))
       temp = check_blank(num, i, x, set2, set1, n)
       if(judge == num & is.list(temp))
         return(temp)
-    if(i==4)
+    if(j==4)
       return(0)
+      j = j+1
   }
 }
 
