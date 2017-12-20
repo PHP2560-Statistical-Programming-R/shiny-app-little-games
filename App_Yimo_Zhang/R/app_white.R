@@ -3,7 +3,7 @@ gomoku_white = function(input, output) {
   
   
     
-  
+    #click play button
     observeEvent(input$click_computer,{
       
     if(input$color == "WHITE"){
@@ -45,7 +45,7 @@ gomoku_white = function(input, output) {
       if (!if_in(point = point, points = w$points_white)) #break when the point had chessman on it
       {
         
-       
+        
         w$points_white[point[1], point[2]] = 2
         
         
@@ -53,17 +53,19 @@ gomoku_white = function(input, output) {
         w$playedlist_white = c(w$playedlist_white, xy)
         
         output$computer = renderPlot({chessboard(input$computer_num, w$points_white)})
-        
+        #add the spot to player record
         w$player_white[[w$k]] = point
         
+        #next round
         w$k = w$k+1
     
         if(if_win(w$player_white)==1){
+          #stop the game
           b$computer_start = 1
           output$computer = renderPlot({plot_computer_result("You Win!", "white")})
+          #update record table
           b$r_table_computer = b$r_table_computer %>%
             rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Player Wins!"))
-          output$computer_result = renderText("You Win!")
         }
         
         #computer playes after player
@@ -71,16 +73,18 @@ gomoku_white = function(input, output) {
         if(input$level == "EASY"){new = computer_play(w$player_white, w$computer_white, w$playedlist_white, input$computer_num)}
         point = unlist(new)
         w$points_white[point[1], point[2]] = 1
-        xy <- paste(point, collapse = ":")
+        xy = paste(point, collapse = ":")
         w$playedlist_white = c(w$playedlist_white, xy)
+        #add the spot to computer record
         w$computer_white[[w$k]] = point
    
         if(if_win(w$computer_white)==1){
+          #stop the game
           b$computer_start = 1
           output$computer = renderPlot({plot_computer_result("You Lose!", "white")})
+          #update record tabe
           b$r_table_computer = b$r_table_computer %>%
             rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Computer Wins!"))
-          output$computer_result = renderText("You Lose!")
         }
       }
         
@@ -91,33 +95,7 @@ gomoku_white = function(input, output) {
   })
 
   }
-
-
-chessboard = function(n , points){
-  img<-readJPEG("App_Yimo_Zhang/R/wood.jpg")
-  par(mar = rep(0, 4)) 
-  plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
-       ylab = "", bty = "o", lab = c(n, n, 1))
-  rasterImage(img,0,0,1+n,1+n)
-  segments(1, 1:n, n, 1:n)
-  segments(1:n, 1, 1:n, n)
-  temp = c(round((n+1)/5),(n+1)/2, round(4*(n+1)/5),round(4*(n+1)/5))
-  points(rep(temp, 3), rep(temp, each = 3),
-         pch = 19, cex = 6/sqrt(n))
-  box()
-  for(i in 1:n){
-    for(k in 1:n){
-      l = list()
-      l$x = i
-      l$y = k
-      shape = points[i,k]
-      if(shape > 0)
-        points(l, cex = 3*19/n, pch = c(19, 21)[shape], bg = c("black", "white")[shape])
-    }
-  }
-  
-}
-
+#plot player wins/player wins
 plot_computer_result = function(result, stone_color){
   if(result == "You Win!"){img = readPNG("App_Yimo_Zhang/R/happy_face.png")}
   if(result == "You Lose!"){img = readPNG("App_Yimo_Zhang/R/sad_face.png")}

@@ -1,6 +1,7 @@
 #play with another person
 gomoku_battle = function(input, output) {
  
+  #Click play button
   observeEvent(input$click_battle, {
     
     
@@ -8,57 +9,66 @@ gomoku_battle = function(input, output) {
     
     output$battle = renderPlot({chessboard(input$battle_num, g$points)})
     
-    
+    #define/reset variables
     g$i = 1
     g$j = 1
     g$black = list() 
     g$white = list() 
     
-    
+    #click on chessboard
     observeEvent(input$battle_click, {
       
       if(g$battle_start == 0)
       {
+        #get the location of the click
       point = adjust(input$battle_click, input$battle_num)
       
       
       if (!if_in(point = point, points = g$points)) #break when the point had chessman on it
       {
+        #Record this click
         g$points[point[1], point[2]] = g$j
   
         
         
-        
+        #plot the click
         output$battle = renderPlot({chessboard(input$battle_num, g$points)})
         
-        
+        #black part
         if(g$j == 1){
+          #add the spot to black record
           g$black[[g$i]] = point
-   
+          #judge if black wins
           if(if_win(g$black)==1){
-            g$battle_start = 1
+            #stop the game
+            g$battle_start = 1 
+            #plot black wins
             output$battle = renderPlot({plot_battle_result("Black Wins!")})
+            #update record table
             g$r_table_battle = g$r_table_battle %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Battle", "Black Wins!"))
-            output$battle_result = renderText("Black Wins!")
           }
         }
         
-        #check the white chessman
+        #white part
         if(g$j == 2){
+          #add the spot to white record
           g$white[[g$i]] = point
           if(if_win(g$white)==1){
+            #stop the game
             g$battle_start = 1
+            #plot white wins
             output$battle = renderPlot({plot_battle_result("White Wins!")})
+            #update record table
             g$r_table_battle = g$r_table_battle %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Battle", "White Wins!"))
-            output$battle_result = renderText("White Wins!")
           }
         }
-      
+        #next player
         if(g$j == 1){g$j = 2}
         else{
           g$j = 1
+          #next round
           g$i = g$i + 1}
      
         
@@ -68,7 +78,7 @@ gomoku_battle = function(input, output) {
   })
   }
 
-
+#plot chessboard
 chessboard = function(n , points){
   img<-readJPEG("App_Yimo_Zhang/R/wood.jpg")
   par(mar = rep(0, 4)) 
@@ -94,7 +104,7 @@ chessboard = function(n , points){
   
 }
 
-
+#plot the cover after clicking reset button
 plot_cover = function(){
   n = 100
   x=c(1:n)
@@ -114,7 +124,7 @@ plot_cover = function(){
 }
 
 
-
+#Plot white wins/black wins
 plot_battle_result = function(result)
 {
   if(result == "White Wins!"){

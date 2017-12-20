@@ -2,21 +2,26 @@ library(shiny)
 library(shinyjs)
 library(dplyr)
 
+#Add environment variables; in order to conveniently use define and arrange variables
 g <<- new.env()
 
 b <<- new.env()
 
 w <<- new.env()
 
+#The result table
 g$r_table_battle = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Type" = "None", "Result" = "None")
 
 b$r_table_computer = tibble("Date"= as.character(Sys.Date()), "Time" = as.character(format(Sys.time(), "%X")), "Type" = "None", "Result" = "None")
 
+#Click "Reset" button to play another game
 g$battle_start = 0
 
 b$computer_start = 0
 
+#Web part
 ui <- navbarPage("GOMOKU",
+                 #Add instrunctions
                  tabPanel(title = "INSTRUCTION",
                           mainPanel(h2("Rules", align = "center"),
                                     br(),
@@ -49,6 +54,7 @@ ui <- navbarPage("GOMOKU",
                                     plotOutput("g2")
                          
                           )),
+                 #Battle
     tabPanel(title = "BATTLE",
              sidebarLayout(
                sidebarPanel(useShinyjs(),
@@ -62,9 +68,10 @@ ui <- navbarPage("GOMOKU",
                actionButton("reset_battle", "Reset")
                ),
                
-               mainPanel(plotOutput("battle", click = "battle_click"),
-                            textOutput("battle_result"))
+               mainPanel(plotOutput("battle", click = "battle_click"))
+                            
              ) ),
+    #Play with computer
     tabPanel(title = "COMPUTER",
              sidebarLayout(
                sidebarPanel(useShinyjs(),
@@ -80,13 +87,14 @@ ui <- navbarPage("GOMOKU",
                actionButton("reset_computer", "Reset")
                
                ),
-               mainPanel( plotOutput("computer", click = "computer_click"),
-                             textOutput("computer_result"))
+               mainPanel( plotOutput("computer", click = "computer_click"))
+                             
              )
             
              
              
     ),
+    #Record of playing the game
     tabPanel(title = "RECORD",
              sidebarLayout(
                sidebarPanel(
@@ -97,8 +105,9 @@ ui <- navbarPage("GOMOKU",
     )
   )
 
-
+#Server part
 server <- function(input, output) {
+  #Source all the necessary file
   source("App_Yimo_Zhang/R/gomoku_packages.R")
   source("App_Yimo_Zhang/R/gomoku_backstage_functions.R")
   source("App_Yimo_Zhang/R/app_battle.R")
@@ -171,12 +180,15 @@ server <- function(input, output) {
          ylab = "", bty = "o", lab = c(n, n, 1))
     rasterImage(img,0,0,1+n,1+n)
   })
+  
+  #Game start
   gomoku_battle(input, output)
   
   gomoku_black(input, output)
   
   gomoku_white(input, output)
   
+  #Reset
   observeEvent(input$reset_battle,{
     reset("battle_page")
     g$battle_start = 0
@@ -189,7 +201,7 @@ server <- function(input, output) {
     output$computer = renderPlot({plot_cover()})
   })
   
-  
+  #Display the record table
   observeEvent(input$refresh, {
     if(input$game == "BATTLE"){
       output$record = renderTable({

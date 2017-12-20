@@ -7,6 +7,7 @@ gomoku_black = function(input, output) {
     
   if(input$color == "BLACK" ){
     
+    #create/update variable
     b$points = matrix(rep(0, input$computer_num^2), nrow = input$computer_num, ncol = input$computer_num)
 
     output$computer = renderPlot({chessboard(input$computer_num, b$points)})
@@ -36,16 +37,18 @@ gomoku_black = function(input, output) {
         xy = paste(point, collapse = ":")
         b$playedlist = c(b$playedlist, xy)
         
+        #plot the click
         output$computer = renderPlot({chessboard(input$computer_num, b$points)})
-        
+         #add the spot to player record
          b$player[[b$i]] = point
         
           if(if_win(b$player)==1){
+            #stop the game
             b$computer_start = 1
             output$computer = renderPlot({plot_computer_result("You Win!", "black")})
+            #update record table
             b$r_table_computer = b$r_table_computer %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Player Wins!"))
-            output$computer_result = renderText("You Win!")
           }
         
          
@@ -54,19 +57,21 @@ gomoku_black = function(input, output) {
         if(input$level == "EASY"){new = computer_play(b$player, b$computer, b$playedlist, input$computer_num)}
         point = unlist(new)
         b$points[point[1], point[2]] = 2
-        xy <- paste(point, collapse = ":")
+        xy = paste(point, collapse = ":")
         b$playedlist = c(b$playedlist, xy)
+        #add the spot to computer record
         b$computer[[b$i]] = point
     
           if(if_win(b$computer)==1){
+            #stop the game
             b$computer_start = 1
             output$computer = renderPlot({plot_computer_result("You Lose!","black")})
+            #update record table
             b$r_table_computer = b$r_table_computer %>%
               rbind(c(as.character(Sys.Date()), as.character(format(Sys.time(), "%X")), "Computer", "Computer Wins!"))
-            output$computer_result = renderText("You Lose!")
           }
         
-      #update variables
+      #next round
        b$i = b$i+1
         
         
@@ -79,32 +84,6 @@ gomoku_black = function(input, output) {
   }
 
 
-#make the plot(including chessboard and chessmen)
-chessboard = function(n , points){
-  img<-readJPEG("App_Yimo_Zhang/R/wood.jpg")
-  par(mar = rep(0, 4)) 
-  plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
-       ylab = "", bty = "o", lab = c(n, n, 1))
-  rasterImage(img,0,0,1+n,1+n)
-  segments(1, 1:n, n, 1:n)
-  segments(1:n, 1, 1:n, n)
-  temp = c(round((n+1)/5),(n+1)/2, round(4*(n+1)/5),round(4*(n+1)/5))
-  points(rep(temp, 3), rep(temp, each = 3),
-         pch = 19, cex = 6/sqrt(n))
-  box()
-  for(i in 1:n){
-    for(k in 1:n){
-      l = list()
-      l$x = i
-      l$y = k
-      shape = points[i,k]
-      if(shape > 0)
-        points(l, cex = 3*19/n, pch = c(19, 21)[shape], bg = c("black", "white")[shape])
-    }
-  }
-  
-}
-
 #adjust the click position
 adjust = function(adjust_point, n){
   l = adjust_point
@@ -113,7 +92,7 @@ adjust = function(adjust_point, n){
   return(c(x,y))
 }
 
-#check if a spot is available
+#check if a spot is already filled
 if_in = function(point, points){
   x = point[1]
   y = point[2]
