@@ -51,7 +51,21 @@ ui <- navbarPage("GOMOKU",
                                     br(),
                                     h4(textOutput("glevel4")),
                                     br(),
-                                    plotOutput("g2")
+                                    plotOutput("g2"),
+                                    hr(),
+                                    h2("Guide", align = "center"),
+                                    br(),
+                                    h4(textOutput("gguide1")),
+                                    br(),
+                                    plotOutput("gguidep1"),
+                                    br(),
+                                    h4(textOutput("gguide2")),
+                                    br(),
+                                    plotOutput("gguidep2"),
+                                    br(),
+                                    h4(textOutput("gguide3")),
+                                    br(),
+                                    plotOutput("gguidep3")
                          
                           )),
                  #Battle
@@ -79,7 +93,7 @@ ui <- navbarPage("GOMOKU",
                  sliderInput(inputId = "computer_num", 
                              label = "Choose a number", 
                              value = 19, min = 5, max = 35, step = 2),
-                 radioButtons("color", "Choose Youe Color", choices = c("BLACK", "WHITE"), selected = NULL),
+                 radioButtons("color", "Choose Your Color", choices = c("BLACK", "WHITE"), selected = NULL),
                  radioButtons("level","Choose Level", choices = c("EASY", "HARD"), selected = NULL),
                  actionButton("click_computer","Play")
                ), 
@@ -118,9 +132,8 @@ server <- function(input, output) {
   source("App_Yimo_Zhang/R/app_white.R")
   
   #instruction for gomoku
-  output$grule1 = renderText("1. Choose a color (black or white) whether you play with 
-                             computer or play with another person (battle). Black color
-                             goes first.")
+  output$grule1 = renderText("1. Choose a color when you play with computer; decide your color choice in advance if you play battle with another person.
+                              Black color goes first.")
   output$grule2 = renderText("2. Players should place their own stones on the chessboard alternatively,
                              with one stone at a time. The stones that have been placed on the board cannot 
                              be moved, removed or replaced by other stones.")
@@ -181,6 +194,39 @@ server <- function(input, output) {
     rasterImage(img,0,0,1+n,1+n)
   })
   
+  output$gguide1 = renderText('1. Click the tab to choose a mode of this game. "BATTLE" means 
+                              playing with another person; "Computer" means playing with computer; 
+                              "RECORD" means the record of your playing this game. In "BATTLE" page, 
+                              you can select a size of the chessboard, note you have to decide which color to 
+                              use by yourselves. Note that you have to click "Reset" and then "Play" to start another game.')
+  output$gguidep1 = renderPlot({
+    n = 100
+    img = readPNG("App_Yimo_Zhang/R/choose_mode.png")
+    par(mar = rep(0, 4)) 
+    plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+         ylab = "", bty = "o", lab = c(n, n, 1))
+    rasterImage(img,0,0,1+n,1+n)
+  })
+  output$gguide2 = renderText('2. In "COMPUTER" page, you can choose size, color as well as the level of the game. Note that 
+                              you have to click "Reset" and then "play" to start another game.')
+  output$gguidep2 = renderPlot({
+    n = 100
+    img = readPNG("App_Yimo_Zhang/R/computer.png")
+    par(mar = rep(0, 4)) 
+    plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+         ylab = "", bty = "o", lab = c(n, n, 1))
+    rasterImage(img,0,0,1+n,1+n)
+  })
+  output$gguide3 = renderText('3. In "REOCRD" page, you can click select the type of game and then click "Refresh" to see the latest records of the game.')
+  output$gguidep3 = renderPlot({
+    n = 100
+    img = readPNG("App_Yimo_Zhang/R/record.png")
+    par(mar = rep(0, 4)) 
+    plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+         ylab = "", bty = "o", lab = c(n, n, 1))
+    rasterImage(img,0,0,1+n,1+n)
+  })
+                               
   #Game start
   gomoku_battle(input, output)
   

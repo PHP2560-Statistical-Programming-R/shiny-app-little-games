@@ -48,7 +48,21 @@ ui <- navbarPage("LITTLE GAMES",
                                         br(),
                                         h4(textOutput("glevel4")),
                                         br(),
-                                        plotOutput("g2")
+                                        plotOutput("g2"),
+                                        hr(),
+                                        h2("Guide", align = "center"),
+                                        br(),
+                                        h4(textOutput("gguide1")),
+                                        br(),
+                                        plotOutput("gguidep1"),
+                                        br(),
+                                        h4(textOutput("gguide2")),
+                                        br(),
+                                        plotOutput("gguidep2"),
+                                        br(),
+                                        h4(textOutput("gguide3")),
+                                        br(),
+                                        plotOutput("gguidep3")
                                         )),
                      
                      #R snake
@@ -96,7 +110,7 @@ ui <- navbarPage("LITTLE GAMES",
                  sliderInput(inputId = "computer_num", 
                              label = "Choose a number", 
                              value = 19, min = 5, max = 35, step = 2),
-                 radioButtons("color", "Choose Youe Color", choices = c("BLACK", "WHITE"), selected = NULL),
+                 radioButtons("color", "Choose Your Color", choices = c("BLACK", "WHITE"), selected = NULL),
                  radioButtons("level","Choose Level", choices = c("EASY", "HARD"), selected = NULL),
                  actionButton("click_computer","Play")
                ), 
@@ -238,6 +252,38 @@ server <- function(input, output) {
          ylab = "", bty = "o", lab = c(n, n, 1))
     rasterImage(img,0,0,1+n,1+n)
   })
+  output$gguide1 = renderText('1. Click the tab to choose a mode of this game. "BATTLE" means 
+                              playing with another person; "Computer" means playing with computer; 
+                              "RECORD" means the record of your playing this game. In "BATTLE" page, 
+                              you can select a size of the chessboard, note you have to decide which color to 
+                              use by yourselves. Note that you have to click "Reset" and then "Play" to start another game.')
+  output$gguidep1 = renderPlot({
+    n = 100
+    img = readPNG("data/choose_mode.png")
+    par(mar = rep(0, 4)) 
+    plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+         ylab = "", bty = "o", lab = c(n, n, 1))
+    rasterImage(img,0,0,1+n,1+n)
+  })
+  output$gguide2 = renderText('2. In "COMPUTER" page, you can choose size, color as well as the level of the game. Note that 
+                              you have to click "Reset" and then "play" to start another game.')
+  output$gguidep2 = renderPlot({
+    n = 100
+    img = readPNG("data/computer.png")
+    par(mar = rep(0, 4)) 
+    plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+         ylab = "", bty = "o", lab = c(n, n, 1))
+    rasterImage(img,0,0,1+n,1+n)
+  })
+  output$gguide3 = renderText('3. In "REOCRD" page, you can click select the type of game and then click "Refresh" to see the latest records of the game.')
+  output$gguidep3 = renderPlot({
+    n = 100
+    img = readPNG("data/record.png")
+    par(mar = rep(0, 4)) 
+    plot(1:n, type = "n", xlim = c(1, n), axes = FALSE, xlab = "",
+         ylab = "", bty = "o", lab = c(n, n, 1))
+    rasterImage(img,0,0,1+n,1+n)
+  })
   
   #instruction for mine sweeper
   output$mrule1 = renderText("1. You are presented with a board of squares. Some squares contain mines (bombs), others don't. If you click on a square containing a bomb, you lose. If you manage to click all the squares (without clicking on any bombs) you win.")
@@ -245,6 +291,7 @@ server <- function(input, output) {
   output$mrule3 = renderText("3. To open a square, point at the square and click on it. To mark a square you think is a bomb, point and right-click (or hover with the mouse and press Space).")
   output$mrule4 = renderText("4. You can change the difficulty by adjust the width, height of the playground and the mines in the playground on the left control panel.")
   
+  #gomoku game
   gomoku_battle(input, output)
   
   gomoku_black(input, output)
@@ -279,7 +326,7 @@ server <- function(input, output) {
   })
   
   
-  
+  #snake game
   output$Snake <- renderUI({
     #trigger of starting button
     Snk_actionstart <- eventReactive(input$Start, { 
