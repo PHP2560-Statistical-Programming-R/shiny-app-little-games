@@ -55,7 +55,16 @@ ui <- navbarPage("LITTLE GAMES",
                      tabPanel(title = "R Snake"),
                      
                      #mine sweeper
-                     tabPanel(title = "Mine Sweeper"),
+                     tabPanel(title = "Mine Sweeper",
+                              mainPanel(h2("Rules", align = "center"),
+                                        br(),
+                                        h4(textOutput("mrule1")),
+                                        br(),
+                                        h4(textOutput("mrule2")),
+                                        br(),
+                                        h4(textOutput("mrule3")),
+                                        br(),
+                                        h4(textOutput("mrule4")))),
                      
                      #R flags
                      tabPanel(title = "R Flags")
@@ -208,6 +217,7 @@ server <- function(input, output) {
                               the computer will start to block you if you have at least one stone. But the position 
                               where it blocks you is random. As shown below, computer (white) will block you (black) in either of the five availabel spots, 
                               because you have two stones in row horizontally, vertically and diagonally.")
+  
   output$g1 = renderPlot({
     n = 100
     img = readPNG("data/easy.png")
@@ -228,6 +238,13 @@ server <- function(input, output) {
          ylab = "", bty = "o", lab = c(n, n, 1))
     rasterImage(img,0,0,1+n,1+n)
   })
+  
+  #instruction for mine sweeper
+  output$mrule1 = renderText("1. You are presented with a board of squares. Some squares contain mines (bombs), others don't. If you click on a square containing a bomb, you lose. If you manage to click all the squares (without clicking on any bombs) you win.")
+  output$mrule2 = renderText("2. Clicking a square which doesn't have a bomb reveals the number of neighbouring squares containing bombs. Use this information plus some guess work to avoid the bombs.")
+  output$mrule3 = renderText("3. To open a square, point at the square and click on it. To mark a square you think is a bomb, point and right-click (or hover with the mouse and press Space).")
+  output$mrule4 = renderText("4. You can change the difficulty by adjust the width, height of the playground and the mines in the playground on the left control panel.")
+  
   gomoku_battle(input, output)
   
   gomoku_black(input, output)
