@@ -1,0 +1,100 @@
+---
+title: "GOMOKU INSTRUCTION"
+output: html_fragment
+
+---
+
+<hr/>
+<div style="text-align:center">
+## RULES
+</div>
+<br/>
+
+1. Choose a color (black or white) whether you play with computer or play with another person (battle). Black color goes first.
+
+<br/>
+
+2. Players should place their own stones on the chessboard alternatively, with one stone at a time. The stones that have been placed on the board cannot be moved, removed or replaced by other stones.
+
+<br/>
+
+3. Note that you have to press "Reset" button before you start another game by clickling "Play".
+
+<br/>
+
+4. Whoever has five stones in row wins the game. The stones can lie horizontally, vertically or diagonally, as shown below:
+
+<br/>
+<div style="text-align:center";width:100px>
+![Horizontal](data/horizontal.png)
+</div>
+
+<br/>
+<div style="text-align:center";width:100px>
+![Vertical](data/vertical.png)
+</div>
+
+<br/>
+<div style="text-align:center";width:100px>
+![diagonal](data/diagonal.png)
+</div>
+<hr/>
+
+<div style="text-align:center">
+## DIFFICULTY
+</div>
+<br/>
+
+1. If you choose to play with computer, you can choose either the easy version or hard version.
+
+<br/>
+
+2. The strategy of computer is basically prevent you from winning the game. In other words, the computer was designed to block you so you won't have stones in row. Note that the computer block you on two sides of a row of stones.
+
+<br/>
+
+3. The difference between easy and hard is how to block you. In easy version, the computer will start to block you if you have at least one stone. But the position where it blocks you is random. As shown below, computer (white) will block you (black) in either of the five availabel spots, because you have two stones in row horizontally, vertically and diagonally.
+
+<br/>
+<div style="text-align:center";width:100px>
+![Easy](data/easy.png)
+</div>
+<br/>
+
+4. The hard version won't block unless you have at least two stones in row. It will choose depend on a series of checking. For example, in the picture below, there are two stone in row horizontally, vertically and diagonally. But the horizontal row has already been blocked by one white stone, so the computer will block either the vertical row or diagonal row.
+
+<br/>
+<div style="text-align:center";width:100px>
+![Hard](data/hard.png)
+
+</div>
+<hr/>
+
+<div style="text-align:center">
+## GUIDE
+</div>
+<br/>
+
+1. Click the tab to choose a mode of this game. "BATTLE" means playing with another person; "Computer" means playing with computer; "RECORD" means the record of your playing this game. In "BATTLE" page, you can select a size of the chessboard, note you have to decide which color to use by yourselves. Note that you have to click "Reset" and then "Play" to start another game.
+
+<br/>
+<div style="text-align:center";width:100px>
+![Main Menu](data/choose_mode.png)
+</div>
+<br/>
+
+2. In "COMPUTER" page, you can choose size, color as well as the level of the game. Note that you have to click "Reset" and then "play" to start another game.
+
+<br/>
+<div style="text-align:center";width:100px>
+![Computer](data/computer.png)
+
+</div>
+<br/>
+
+3. In "REOCRD" page, you can click select the type of game and then click "Refresh" to see the latest records of the game.
+
+<br/>
+<div style="text-align:center";width:100px>
+![Record](data/record.png)
+</div>
