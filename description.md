@@ -6,7 +6,7 @@
 
 2. This shiny app basically has the same content as the LittleGames R package. But changes were made in order to fit these games to a shiny app environment.
 
-3. Among the four games, Gomoku and Mine Sweeper were modified based on the original functions, which are attached in the individual files. There are also README files in individual folders that specify what changes we made to the original codes.
+3. These four games were modified based on the original functions, which are attached in the individual files. There are also README files in individual folders that specify what changes we made to the original codes.
 
 4. There are instructions for these games. You can read them once you open this app.
 

@@ -66,7 +66,35 @@ ui <- navbarPage("LITTLE GAMES",
                                         )),
                      
                      #R snake
-                     tabPanel(title = "R Snake"),
+                     tabPanel(title = "R Snake",
+                              mainPanel(h2("Introduction", align = "center"),
+                                        br(),
+                                        h4(textOutput("srule1")),
+                                        
+                                        h2("Rules for level 1", align = "center"),
+                                        br(),
+                                        h4(textOutput("srule2")),
+                                        h4(textOutput("srule3")),
+                                        br(),
+                                        h4(textOutput("srule4")),
+                                        br(),
+                                        h4(textOutput("srule5")),
+                                        
+                                        h2("Rules for level 2-5", align = "center"),
+                                        br(),
+                                        h4(textOutput("srule6")),
+                                        h4(textOutput("srule7")),
+                                        br(),
+                                        h4(textOutput("srule8")),
+                                        br(),
+                                        h4(textOutput("srule9")),
+                                        br(),
+                                        h4(textOutput("srule10")),
+                                        br(),
+                                        br(),
+                                        h4(textOutput("srule11")),
+                                        br()
+                                        )),
                      
                      #mine sweeper
                      tabPanel(title = "Mine Sweeper",
@@ -81,7 +109,13 @@ ui <- navbarPage("LITTLE GAMES",
                                         h4(textOutput("mrule4")))),
                      
                      #R flags
-                     tabPanel(title = "R Flags")
+                     tabPanel(title = "R Flags",
+                              mainPanel(h2("Rules", align = "center"),
+                                        br(),
+                                        h4(textOutput("frule1")),
+                                        br()
+)
+                              )
                                  
                                  )    
                           ),
@@ -285,11 +319,36 @@ server <- function(input, output) {
     rasterImage(img,0,0,1+n,1+n)
   })
   
+  #instruction for R Snake
+  output$srule1 = renderText("Snake is a interesting as well as easy game for everyone to play. 
+                             In this app, not only you can play a basic level of Snake, 
+                             but also you can change the difficulty level of the game to challenge yourself. ")
+  output$srule2 = renderText("In the basic level, where the difficulty level is 1, the rules are: ")
+  output$srule3 = renderText("1. Use the arrow keys to direct the snake around the screen and eat the fruits.")
+  output$srule4 = renderText("2. The more fruits the snake gets, the longer it grow and the higher you score.")
+  output$srule5 = renderText("3. Avoid causing the snake to eat itself, and use any keys on keyboard to start the game.")
+  output$srule6 = renderText("In the more challenged levels, where the difficulty levels are from 2 to 5, the rules are:")
+  output$srule7 = renderText("1. Use the arrow keys to direct the snake around the screen and eat the fruits.")
+  output$srule8 = renderText("2. If the difficulty level is X (from 2 to 5), using up/right arrow keys will make the snake move one step, 
+                             while using down/left arrow keys will make the snake move X steps.")
+  output$srule9 = renderText("3. The more fruits the snake gets, the longer it grow and the higher you score.")
+  output$srule10 = renderText("4. Avoid causing the snake to eat itself, and use any keys on keyboard to start the game.")
+  output$srule11 = renderText("Wish you enjoy the Snake!")
+  
+  
   #instruction for mine sweeper
   output$mrule1 = renderText("1. You are presented with a board of squares. Some squares contain mines (bombs), others don't. If you click on a square containing a bomb, you lose. If you manage to click all the squares (without clicking on any bombs) you win.")
   output$mrule2 = renderText("2. Clicking a square which doesn't have a bomb reveals the number of neighbouring squares containing bombs. Use this information plus some guess work to avoid the bombs.")
   output$mrule3 = renderText("3. To open a square, point at the square and click on it. To mark a square you think is a bomb, point and right-click (or hover with the mouse and press Space).")
   output$mrule4 = renderText("4. You can change the difficulty by adjust the width, height of the playground and the mines in the playground on the left control panel.")
+  
+  
+  
+  #instruction for R Flags
+  output$frule1 = renderText("In this R Flag app, people can use the function to draw countries' flags. To illustrate, flags are made of dots, ranging from 1000 to 100,000. 
+                             The more dots in the flag, the more delicate the flags are. ")
+
+  
   
   #gomoku game
   gomoku_battle(input, output)
