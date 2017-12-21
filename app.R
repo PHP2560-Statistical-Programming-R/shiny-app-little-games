@@ -169,7 +169,7 @@ ui <- navbarPage("LITTLE GAMES",
            sidebarLayout(
              sidebarPanel( 
                sliderInput("Speed", "Funny Snake", min = 1, max = 5, value = 1, step = 1),  #slider for speed input
-               actionButton("Start", "Get Ready And Click Here to Start!")
+               actionButton("Start", "Get ready and click here to start!")
              ),
              
              mainPanel(plotOutput("Snake")
@@ -193,15 +193,15 @@ ui <- navbarPage("LITTLE GAMES",
   tabPanel(title = "R Flags",   #R flag
            sidebarLayout(
              sidebarPanel(
-               selectInput("Countries", "Please Select A Country",
+               selectInput("Countries", "Please select a country",
                            choices = c("Norway", 
                                        "Denmark",
                                        "Finland",
                                        "Japan",
                                        "Iceland",
                                        "Sweden")),
-               sliderInput("Points", "Please Select A Number",
-                           min = 1000, max = 100000, value = 20000, step = 10000)
+               sliderInput("Points", "Please select a number",
+                           min = 1000, max = 100000, value = 20000, step = 1)
                
              ),
              mainPanel(
