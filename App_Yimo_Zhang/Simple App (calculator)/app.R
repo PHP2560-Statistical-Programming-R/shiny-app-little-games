@@ -27,7 +27,7 @@ server <- function(input, output){
   
   output$p = renderText({
     input$go
-    isolate(paste("P-value = ", -pnorm(input$z, mean = input$mean, sd = sqrt(input$variance)), sep = ""))
+    isolate(paste("P-value = ", pnorm(-input$z, mean = input$mean, sd = sqrt(input$variance)), sep = ""))
   })
   
   observeEvent(input$reset, reset("cal"))
