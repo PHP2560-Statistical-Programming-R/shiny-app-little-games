@@ -20,6 +20,24 @@ Yimo Zhang: Gomoku
 
 Bowei Wei: Mine Sweeper
 
+## How To Use This App
+
+1. There is five tabs in the main menu, “instruction”, “gomoku”, “r snake”, “mine sweeper” and “r flags”.
+
+2. Click “instruction” to see how to play each game. You can use the submenu to see the instruction of a specific game.
+
+<br/>
+<div style="text-align:center">
+![how to use](data/how_to_use1.png)
+</div>
+
+3. Click any game to play a specific game.
+
+<br/>
+<div style="text-align:center">
+![how to use](data/how_to_use2.png)
+</div>
+
 ## Note
 
 To make the codes neat, not a lot of comments were put in the combined version of app.R. But you can go through all the details in individual files, including all the functions and comments.
