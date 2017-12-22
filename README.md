@@ -12,7 +12,7 @@
 
 ## Audience
 
-Whoever interested in playing games are more than welcome to use this app. Moreover, if you are interested in creating games in R plotform, please use this app, because we really need your suggestions and ideas, which you can send to [this email](yimo_zhang@brown.edu).
+Whoever interested in playing games is more than welcome to use this app. Moreover, if you are interested in creating games in R plotform, please use this app, because we really need your suggestions and ideas, which you can send to [this email](yimo_zhang@brown.edu).
 
 ## Break Down of Work
 
@@ -26,7 +26,7 @@ Bowei Wei: Mine Sweeper
 
 ## How To Use This App
 
-1. There is five tabs in the main menu, “instruction”, “gomoku”, “r snake”, “mine sweeper” and “r flags”.
+1. There are five tabs in the main menu, “instruction”, “gomoku”, “r snake”, “mine sweeper” and “r flags”.
 
 2. Click “instruction” to see how to play each game. You can use the submenu to see the instruction of a specific game.
 
@@ -36,7 +36,7 @@ Bowei Wei: Mine Sweeper
 
 
 
-3. Click any game to play a specific game.
+3. Click tab to play a specific game.
 
 
 !["how to use"](www/2.png?raw=true)
