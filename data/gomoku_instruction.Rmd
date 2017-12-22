@@ -18,7 +18,7 @@ output: html_fragment
 
 <br/>
 
-3. Note that you have to press "Reset" button before you start another game by clickling "Play".
+3. Note that you have to press "Reset" button before you start another game.
 
 <br/>
 
@@ -49,11 +49,11 @@ output: html_fragment
 
 <br/>
 
-2. The strategy of computer is basically prevent you from winning the game. In other words, the computer was designed to block you so you won't have stones in row. Note that the computer block you on two sides of a row of stones.
+2. The strategy of computer is basically prevent you from winning. In other words, the computer was designed to block you so you won't have stones in row. Note that the computer only block you on two sides of a row of stones.
 
 <br/>
 
-3. The difference between easy and hard is how to block you. In easy version, the computer will start to block you if you have at least one stone. But the position where it blocks you is random. As shown below, computer (white) will block you (black) in either of the five availabel spots, because you have two stones in row horizontally, vertically and diagonally.
+3. The difference between easy version and hard one is how to block you. In easy version, the computer will start to block you if you have at least one stone. But the position where it blocks you is random. As shown below, computer (white) will block you (black) in either of the five availabel spots, because you have two stones in row horizontally, vertically and diagonally.
 
 <br/>
 <div style="text-align:center";width:100px>
@@ -92,7 +92,7 @@ output: html_fragment
 </div>
 <br/>
 
-3. In "REOCRD" page, you can click select the type of game and then click "Refresh" to see the latest records of the game.
+3. In "REOCRD" page, you can select the type of game and then click "Refresh" to see the latest records of the game.
 
 <br/>
 <div style="text-align:center";width:100px>
