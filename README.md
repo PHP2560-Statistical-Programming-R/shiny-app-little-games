@@ -31,7 +31,7 @@ Bowei Wei: Mine Sweeper
 2. Click “instruction” to see how to play each game. You can use the submenu to see the instruction of a specific game.
 
 
-!["how to use"](www/how_to_use1.png?raw = true)
+!["how to use"](www/1.png?raw=true)
 
 
 
@@ -39,7 +39,7 @@ Bowei Wei: Mine Sweeper
 3. Click any game to play a specific game.
 
 
-!["how to use"](www/how_to_use2.png?raw = true)
+!["how to use"](www/2.png?raw=true)
 
 
 
